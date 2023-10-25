@@ -325,7 +325,7 @@ def is_safe_path(file_name):
     return {"status": True, "msg": ""}
 
 
-def upload_with_dropzonejs(image_dir):
+def upload_to_dir(image_dir):
     """
     Takes (str) image_dir which is the path to the image dir to store files.
     Opens a stream to transfer a file via the embedded dropzonejs library.
@@ -345,7 +345,10 @@ def upload_with_dropzonejs(image_dir):
     try:
         with open(save_path, "ab") as save:
             save.seek(int(request.form["dzchunkbyteoffset"]))
-            save.write(file_object.stream.read())
+            chunk = file_object.stream.read()
+            # Remove CRLF characters from the end of the chunk
+            chunk = chunk.rstrip(b"\r\n")
+            save.write(chunk)
     except OSError:
         log.exception("Could not write to file")
         return make_response(_("Unable to write the file to disk!"), 500)

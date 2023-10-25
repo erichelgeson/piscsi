@@ -55,7 +55,7 @@ from web_utils import (
     auth_active,
     is_bridge_configured,
     is_safe_path,
-    upload_with_dropzonejs,
+    upload_to_dir,
     browser_supports_modern_themes,
 )
 from settings import (
@@ -1035,7 +1035,7 @@ def upload_file():
     else:
         return make_response(_("Unknown destination"), 403)
 
-    return upload_with_dropzonejs(destination_dir)
+    return upload_to_dir(destination_dir)
 
 
 @APP.route("/files/create", methods=["POST"])
