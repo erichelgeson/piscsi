@@ -344,10 +344,12 @@ def upload_to_dir(image_dir):
 
     try:
         with open(save_path, "ab") as save:
+            log.info(request.form)
+            log.info(request.files)
             save.seek(int(request.form["dzchunkbyteoffset"]))
             chunk = file_object.stream.read()
             # Remove CRLF characters from the end of the chunk
-            chunk = chunk.rstrip(b"\r\n")
+            # chunk = chunk.rstrip(b"\r\n")
             save.write(chunk)
     except OSError:
         log.exception("Could not write to file")
