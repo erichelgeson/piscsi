@@ -19,7 +19,7 @@
 
 using namespace scsi_command_util;
 
-SCSIHD::SCSIHD(int lun, bool removable, scsi_defs::scsi_level level, const unordered_set<uint32_t> sector_sizes)
+SCSIHD::SCSIHD(int lun, bool removable, scsi_defs::scsi_level level, const unordered_set<uint32_t>& sector_sizes)
 	: Disk(removable ? SCRM : SCHD, lun, sector_sizes), scsi_level(level)
 {
 	SetProtectable(true);
