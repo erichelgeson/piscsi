@@ -774,8 +774,6 @@ TEST(DiskTest, SectorSize)
 {
 	MockDisk disk;
 
-	EXPECT_TRUE(disk.IsSectorSizeConfigurable());
-
 	disk.SetSectorSizeShiftCount(9);
 	EXPECT_EQ(9, disk.GetSectorSizeShiftCount());
 	EXPECT_EQ(512, disk.GetSectorSizeInBytes());

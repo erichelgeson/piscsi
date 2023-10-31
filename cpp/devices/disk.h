@@ -65,8 +65,6 @@ public:
 
 	uint32_t GetSectorSizeInBytes() const;
 	auto GetSupportedSectorSizes() const { return supported_sector_sizes; }
-	// TODO Check whether this is correct or can be improved
-	bool IsSectorSizeConfigurable() const { return !supported_sector_sizes.empty(); }
 	bool SetConfiguredSectorSize(uint32_t);
 	void FlushCache() override;
 
