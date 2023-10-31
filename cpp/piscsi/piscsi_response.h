@@ -47,7 +47,6 @@ private:
 
 	inline static const vector<string> EMPTY_VECTOR;
 
-	// TODO Try to get rid of this field by having the device instead of the factory providing the device data
 	const DeviceFactory device_factory;
 
 	void GetDeviceProperties(shared_ptr<Device>, PbDeviceProperties&) const;
