@@ -11,7 +11,6 @@
 
 #pragma once
 
-#include "shared/piscsi_util.h"
 #include <string>
 #include <unordered_map>
 #include "generated/piscsi_interface.pb.h"

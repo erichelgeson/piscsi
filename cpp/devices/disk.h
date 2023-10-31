@@ -48,7 +48,8 @@ class Disk : public StorageDevice, private ScsiBlockCommands
 
 public:
 
-	Disk(PbDeviceType type, int lun, unordered_set<uint32_t> s) : StorageDevice(type, lun), supported_sector_sizes(s) {}
+	Disk(PbDeviceType type, int lun, const unordered_set<uint32_t> s)
+		: StorageDevice(type, lun), supported_sector_sizes(s) {}
 	~Disk() override = default;
 
 	bool Init(const param_map&) override;
@@ -63,6 +64,7 @@ public:
 	virtual int Read(span<uint8_t> , uint64_t);
 
 	uint32_t GetSectorSizeInBytes() const;
+	bool IsSectorSizeConfigurable() const { return supported_sector_sizes.size() > 1; }
 	const auto& GetSupportedSectorSizes() const { return supported_sector_sizes; }
 	bool SetConfiguredSectorSize(uint32_t);
 	void FlushCache() override;

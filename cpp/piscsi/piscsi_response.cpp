@@ -43,7 +43,7 @@ void PiscsiResponse::GetDeviceProperties(shared_ptr<Device> device, PbDeviceProp
 	}
 
 	shared_ptr<Disk> disk = dynamic_pointer_cast<Disk>(device);
-	if (disk != nullptr) {
+	if (disk != nullptr && disk->IsSectorSizeConfigurable()) {
 		for (const auto& sector_size : disk->GetSupportedSectorSizes()) {
 			properties.add_block_sizes(sector_size);
 		}

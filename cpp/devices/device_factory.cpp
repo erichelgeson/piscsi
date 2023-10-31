@@ -7,7 +7,7 @@
 //
 //---------------------------------------------------------------------------
 
-#include "shared/network_util.h"
+#include "shared/piscsi_util.h"
 #include "scsihd.h"
 #include "scsihd_nec.h"
 #include "scsimo.h"
@@ -20,7 +20,6 @@
 
 using namespace std;
 using namespace piscsi_util;
-using namespace network_util;
 
 PbDeviceType DeviceFactory::GetTypeForFile(const string& filename) const
 {
