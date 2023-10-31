@@ -61,7 +61,7 @@ private:
 
 	ControllerManager& controller_manager;
 
-	const DeviceFactory device_factory;
+	[[no_unique_address]] const DeviceFactory device_factory;
 
 	unordered_set<int> reserved_ids;
 };
