@@ -16,7 +16,6 @@
 
 #include "shared/scsi.h"
 #include "shared/piscsi_util.h"
-#include "device_factory.h"
 #include "disk_track.h"
 #include "disk_cache.h"
 #include "interfaces/scsi_block_commands.h"

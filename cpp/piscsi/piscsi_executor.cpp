@@ -10,7 +10,6 @@
 #include "shared/piscsi_util.h"
 #include "shared/protobuf_util.h"
 #include "shared/piscsi_exceptions.h"
-#include "devices/device_factory.h"
 #include "devices/disk.h"
 #include "localizer.h"
 #include "command_context.h"
