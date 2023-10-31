@@ -370,7 +370,7 @@ class MockSCSIHD : public SCSIHD //NOSONAR Ignore inheritance hierarchy depth in
 public:
 
 	MockSCSIHD(int lun, bool removable) : SCSIHD(lun, removable, scsi_level::scsi_2) {}
-	explicit MockSCSIHD(const unordered_set<uint32_t> sector_sizes) : SCSIHD(0, false, scsi_level::scsi_2, sector_sizes) {}
+	explicit MockSCSIHD(const unordered_set<uint32_t>& sector_sizes) : SCSIHD(0, false, scsi_level::scsi_2, sector_sizes) {}
 	~MockSCSIHD() override = default;
 };
 

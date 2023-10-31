@@ -48,7 +48,7 @@ class Disk : public StorageDevice, private ScsiBlockCommands
 
 public:
 
-	Disk(PbDeviceType type, int lun, const unordered_set<uint32_t> s)
+	Disk(PbDeviceType type, int lun, const unordered_set<uint32_t>& s)
 		: StorageDevice(type, lun), supported_sector_sizes(s) {}
 	~Disk() override = default;
 
