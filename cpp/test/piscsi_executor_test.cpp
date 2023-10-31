@@ -252,8 +252,6 @@ TEST(PiscsiExecutorTest, Attach)
 
 TEST(PiscsiExecutorTest, Insert)
 {
-	DeviceFactory device_factory;
-
 	auto bus = make_shared<MockBus>();
 	ControllerManager controller_manager;
 	auto [controller, device] = CreateDevice(SCHD);

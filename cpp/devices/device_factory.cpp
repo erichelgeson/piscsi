@@ -22,32 +22,13 @@ using namespace std;
 using namespace piscsi_util;
 using namespace network_util;
 
-DeviceFactory::DeviceFactory()
-{
-	extension_mapping["hd1"] = SCHD;
-	extension_mapping["hds"] = SCHD;
-	extension_mapping["hda"] = SCHD;
-	extension_mapping["hdn"] = SCHD;
-	extension_mapping["hdi"] = SCHD;
-	extension_mapping["nhd"] = SCHD;
-	extension_mapping["hdr"] = SCRM;
-	extension_mapping["mos"] = SCMO;
-	extension_mapping["iso"] = SCCD;
-	extension_mapping["is1"] = SCCD;
-
-	device_mapping["bridge"] = SCBR;
-	device_mapping["daynaport"] = SCDP;
-	device_mapping["printer"] = SCLP;
-	device_mapping["services"] = SCHS;
-}
-
 PbDeviceType DeviceFactory::GetTypeForFile(const string& filename) const
 {
-	if (const auto& it = extension_mapping.find(GetExtensionLowerCase(filename)); it != extension_mapping.end()) {
+	if (const auto& it = EXTENSION_MAPPING.find(GetExtensionLowerCase(filename)); it != EXTENSION_MAPPING.end()) {
 		return it->second;
 	}
 
-	if (const auto& it = device_mapping.find(filename); it != device_mapping.end()) {
+	if (const auto& it = DEVICE_MAPPING.find(filename); it != DEVICE_MAPPING.end()) {
 		return it->second;
 	}
 

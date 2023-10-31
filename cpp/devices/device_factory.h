@@ -26,16 +26,32 @@ class DeviceFactory
 
 public:
 
-	DeviceFactory();
+	DeviceFactory() = default;
 	~DeviceFactory() = default;
 
 	shared_ptr<PrimaryDevice> CreateDevice(PbDeviceType, int, const string&) const;
 	PbDeviceType GetTypeForFile(const string&) const;
-	const auto& GetExtensionMapping() const { return extension_mapping; }
+	const auto& GetExtensionMapping() const { return EXTENSION_MAPPING; }
 
 private:
 
-	unordered_map<string, PbDeviceType, piscsi_util::StringHash, equal_to<>> extension_mapping;
+	const inline static unordered_map<string, PbDeviceType, piscsi_util::StringHash, equal_to<>> EXTENSION_MAPPING = {
+			{ "hd1", SCHD },
+			{ "hds", SCHD },
+			{ "hda", SCHD },
+			{ "hdn", SCHD },
+			{ "hdi", SCHD },
+			{ "nhd", SCHD },
+			{ "hdr", SCRM },
+			{ "mos", SCMO },
+			{ "is1", SCCD },
+			{ "iso", SCCD }
+	};
 
-	unordered_map<string, PbDeviceType, piscsi_util::StringHash, equal_to<>> device_mapping;
+	const inline static unordered_map<string, PbDeviceType, piscsi_util::StringHash, equal_to<>> DEVICE_MAPPING = {
+			{ "bridge", SCBR },
+			{ "daynaport", SCDP },
+			{ "printer", SCLP },
+			{ "services", SCHS }
+	};
 };

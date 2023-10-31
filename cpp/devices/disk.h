@@ -63,7 +63,7 @@ public:
 	virtual int Read(span<uint8_t> , uint64_t);
 
 	uint32_t GetSectorSizeInBytes() const;
-	auto GetSupportedSectorSizes() const { return supported_sector_sizes; }
+	const auto& GetSupportedSectorSizes() const { return supported_sector_sizes; }
 	bool SetConfiguredSectorSize(uint32_t);
 	void FlushCache() override;
 
