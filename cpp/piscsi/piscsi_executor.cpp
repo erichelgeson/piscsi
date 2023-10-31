@@ -530,7 +530,7 @@ bool PiscsiExecutor::SetSectorSize(const CommandContext& context, shared_ptr<Pri
 	if (size) {
 		const auto disk = dynamic_pointer_cast<Disk>(device);
 		if (disk != nullptr && disk->IsSectorSizeConfigurable()) {
-			if (!disk->SetConfiguredSectorSize(device_factory, size)) {
+			if (!disk->SetConfiguredSectorSize(size)) {
 				return context.ReturnLocalizedError(LocalizationKey::ERROR_BLOCK_SIZE, to_string(size));
 			}
 		}

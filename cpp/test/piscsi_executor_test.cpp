@@ -500,11 +500,11 @@ TEST(PiscsiExecutorTest, SetSectorSize)
 	CommandContext context(command, "", "");
 
 	unordered_set<uint32_t> sizes;
-	auto hd = make_shared<MockSCSIHD>(0, sizes, false);
+	auto hd = make_shared<MockSCSIHD>(sizes);
 	EXPECT_FALSE(executor.SetSectorSize(context, hd, 512));
 
 	sizes.insert(512);
-	hd = make_shared<MockSCSIHD>(0, sizes, false);
+	hd = make_shared<MockSCSIHD>(sizes);
 	EXPECT_TRUE(executor.SetSectorSize(context, hd, 0));
 	EXPECT_FALSE(executor.SetSectorSize(context, hd, 1));
 	EXPECT_TRUE(executor.SetSectorSize(context, hd, 512));

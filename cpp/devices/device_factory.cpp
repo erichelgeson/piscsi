@@ -24,11 +24,6 @@ using namespace network_util;
 
 DeviceFactory::DeviceFactory()
 {
-	sector_sizes[SCHD] = { 512, 1024, 2048, 4096 };
-	sector_sizes[SCRM] = { 512, 1024, 2048, 4096 };
-	sector_sizes[SCMO] = { 512, 1024, 2048, 4096 };
-	sector_sizes[SCCD] = { 512, 2048};
-
 	extension_mapping["hd1"] = SCHD;
 	extension_mapping["hds"] = SCHD;
 	extension_mapping["hda"] = SCHD;
@@ -75,8 +70,7 @@ shared_ptr<PrimaryDevice> DeviceFactory::CreateDevice(PbDeviceType type, int lun
 		if (const string ext = GetExtensionLowerCase(filename); ext == "hdn" || ext == "hdi" || ext == "nhd") {
 			device = make_shared<SCSIHD_NEC>(lun);
 		} else {
-			device = make_shared<SCSIHD>(lun, sector_sizes.find(type)->second, false,
-					ext == "hd1" ? scsi_level::scsi_1_ccs : scsi_level::scsi_2);
+			device = make_shared<SCSIHD>(lun, false, ext == "hd1" ? scsi_level::scsi_1_ccs : scsi_level::scsi_2);
 
 			// Some Apple tools require a particular drive identification
 			if (ext == "hda") {
@@ -88,17 +82,17 @@ shared_ptr<PrimaryDevice> DeviceFactory::CreateDevice(PbDeviceType type, int lun
 	}
 
 	case SCRM:
-		device = make_shared<SCSIHD>(lun, sector_sizes.find(type)->second, true);
+		device = make_shared<SCSIHD>(lun, true, scsi_level::scsi_2);
 		device->SetProduct("SCSI HD (REM.)");
 		break;
 
 	case SCMO:
-		device = make_shared<SCSIMO>(lun, sector_sizes.find(type)->second);
+		device = make_shared<SCSIMO>(lun);
 		device->SetProduct("SCSI MO");
 		break;
 
 	case SCCD:
-		device = make_shared<SCSICD>(lun, sector_sizes.find(type)->second,
+		device = make_shared<SCSICD>(lun,
             GetExtensionLowerCase(filename) == "is1" ? scsi_level::scsi_1_ccs : scsi_level::scsi_2);
 		device->SetProduct("SCSI CD-ROM");
 		break;
@@ -134,16 +128,4 @@ shared_ptr<PrimaryDevice> DeviceFactory::CreateDevice(PbDeviceType type, int lun
 	}
 
 	return device;
-}
-
-// TODO Move to respective device, which may require changes in the SCSI_HD/SCSIHD_NEC inheritance hierarchy
-unordered_set<uint32_t> DeviceFactory::GetSectorSizes(PbDeviceType type) const
-{
-	const auto& it = sector_sizes.find(type);
-	if (it != sector_sizes.end()) {
-		return it->second;
-	}
-	else {
-		return {};
-	}
 }

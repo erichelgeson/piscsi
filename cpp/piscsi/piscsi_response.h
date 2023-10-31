@@ -50,8 +50,8 @@ private:
 	// TODO Try to get rid of this field by having the device instead of the factory providing the device data
 	const DeviceFactory device_factory;
 
-	void GetDeviceProperties(const Device&, PbDeviceProperties&) const;
-	void GetDevice(const Device&, PbDevice&, const string&) const;
+	void GetDeviceProperties(shared_ptr<Device>, PbDeviceProperties&) const;
+	void GetDevice(shared_ptr<Device>, PbDevice&, const string&) const;
 	void GetDeviceTypeProperties(PbDeviceTypesInfo&, PbDeviceType) const;
 	void GetAvailableImages(PbImageFilesInfo&, const string&, const string&, const string&, int) const;
 	void GetAvailableImages(PbServerInfo&, const string&, const string&, const string&, int) const;
