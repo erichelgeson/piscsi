@@ -198,6 +198,8 @@ class GPIOBUS : public BUS
     // Set GPIO drive strength
     virtual void DrvConfig(uint32_t drive) = 0;
 
+    virtual bool IsTarget() const { return actmode == mode_e::TARGET; }
+
     // Operation mode
     mode_e actmode = mode_e::TARGET;
 

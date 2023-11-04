@@ -26,21 +26,14 @@ bool GPIOBUS::Init(mode_e mode)
 {
     GPIO_FUNCTION_TRACE
 
-    // Save operation mode
     actmode = mode;
 
     return true;
 }
 
-//---------------------------------------------------------------------------
-//
-//	Handshake for COMMAND
-//
-//---------------------------------------------------------------------------
 int GPIOBUS::CommandHandShake(vector<uint8_t>& buf)
 {
-    // Only works in TARGET mode
-	assert(actmode == mode_e::TARGET);
+	assert(IsTarget());
 
 	GPIO_FUNCTION_TRACE
 
@@ -174,7 +167,7 @@ int GPIOBUS::ReceiveHandShake(uint8_t *buf, int count)
 
     DisableIRQ();
 
-    if (actmode == mode_e::TARGET) {
+    if (IsTarget()) {
         for (i = 0; i < count; i++) {
             // Assert the REQ signal
             SetREQ(ON);
@@ -280,7 +273,7 @@ int GPIOBUS::SendHandShake(uint8_t *buf, int count, int delay_after_bytes)
 
     DisableIRQ();
 
-    if (actmode == mode_e::TARGET) {
+    if (IsTarget()) {
         for (i = 0; i < count; i++) {
             if (i == delay_after_bytes) {
                 spdlog::trace("DELAYING for " + to_string(SCSI_DELAY_SEND_DATA_DAYNAPORT_US) + " after " +
