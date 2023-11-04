@@ -105,6 +105,11 @@
         {{ content_class }}
         {% block content %}{% endblock content %}
     </div>
+    {% if self._TemplateReference__context.name not in ("index.html", "upload.html") %}
+    <section id="back">
+        <p><a href="#" onclick="history.go(-1)">{{ _("Go Back") }}</a></p>
+    </section>
+    {% endif %}
     <div align="center" class="footer">
         <div>
             {{ _("PiSCSI software version:") }} <b>{{ env["version"] }}</b>

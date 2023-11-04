@@ -971,6 +971,27 @@ section#manual a p {
 
 /*
  ------------------------------------------------------------------------------
+ Base > Section: Back
+ ------------------------------------------------------------------------------
+ */
+section#back {
+  margin: 2rem 0 1rem;
+}
+
+section#back a {
+  margin: auto;
+  display: block;
+  padding: 0.25rem 0 0.25rem 2rem;
+  background: url("icons/chevrons-left.svg") no-repeat left center;
+  font-weight: bold;
+}
+
+section#back a p {
+  margin: 0;
+}
+
+/*
+ ------------------------------------------------------------------------------
  Admin > Section: Services
  ------------------------------------------------------------------------------
  */
