@@ -27,7 +27,7 @@ public:
     ScsiDump() = default;
     ~ScsiDump() = default;
 
-    int run(const span<char *>);
+    int run(span<char *>);
 
     struct inquiry_info {
         string vendor;
