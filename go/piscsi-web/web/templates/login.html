@@ -1,0 +1,87 @@
+{{define "login.html"}}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{{ .Title }}</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/pwa/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/pwa/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/pwa/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/pwa/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/pwa/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/pwa/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/pwa/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/pwa/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/pwa/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/pwa/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/pwa/favicon-96x96.png">
+    <link rel="manifest" href="/pwa/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/pwa/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/static/themes/{{ if .Theme }}{{ .Theme }}{{ else }}modern{{ end }}/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<body>
+    <div class="header">
+        <div align="center" class="title">
+            <a href="/">
+                <h1>
+                    <span>PiSCSI</span>
+                    <span class="subtitle">Control Page</span>
+                </h1>
+            </a>
+        </div>
+    </div>
+
+    <div class="flash" id="flash">
+        {{ if .FlashMessage }}
+        <div class="info">
+            <div>{{ .FlashMessage }}</div>
+        </div>
+        {{ end }}
+        {{ if .ErrorMessage }}
+        <div class="error">
+            <div>{{ .ErrorMessage }}</div>
+        </div>
+        {{ end }}
+        {{ if .Error }}
+        <div class="error">
+            <div>{{ .Error }}</div>
+        </div>
+        {{ end }}
+    </div>
+
+    <div class="content">
+<div class="login-container">
+    <h2>Login to PiSCSI</h2>
+
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+</div>
+    </div>
+
+    <div align="center" class="footer">
+        <div>
+            <a href="/sys/manpage?app=piscsi">Read the PiSCSI Manual</a>
+        </div>
+        <div>
+            PiSCSI software version: <b>{{ .Version }}</b>
+        </div>
+    </div>
+</body>
+</html>
+{{end}}

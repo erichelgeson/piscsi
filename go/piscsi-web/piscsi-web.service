@@ -1,0 +1,47 @@
+[Unit]
+Description=PiSCSI Web Interface
+Documentation=https://github.com/piscsi/piscsi
+After=network.target piscsi.service
+Wants=piscsi.service
+
+[Service]
+Type=simple
+User=pi
+Group=piscsi
+WorkingDirectory=/opt/piscsi/web
+
+# Binary location
+ExecStart=/opt/piscsi/web/piscsi-web
+
+# Environment configuration
+Environment="SERVER_PORT=8080"
+Environment="SERVER_HOST=0.0.0.0"
+Environment="PISCSI_HOST=localhost"
+Environment="PISCSI_PORT=6868"
+Environment="BASE_DIR=/home/pi/images"
+Environment="SHARED_DIR=/home/pi/shared_files"
+Environment="CONFIG_DIR=/home/pi/.config/piscsi"
+Environment="MAX_FILE_SIZE=4294967296"
+Environment="AUTH_GROUP=piscsi"
+Environment="SESSION_MAX_AGE=86400"
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/pi/images /home/pi/shared_files /home/pi/.config/piscsi
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=piscsi-web
+
+[Install]
+WantedBy=multi-user.target

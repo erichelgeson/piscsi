@@ -1,0 +1,26 @@
+# Binaries
+mock-piscsi
+piscsi-web
+piscsi-web-arm64
+piscsi-web-armv7
+
+# Test binaries and coverage
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go build cache
+go.work
+go.work.sum
+
+# IDE/Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log

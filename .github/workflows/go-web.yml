@@ -1,0 +1,61 @@
+name: Go Web Interface
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+    paths:
+      - '.github/workflows/go-web.yml'
+      - 'go/piscsi-web/**'
+  pull_request:
+    branches:
+      - develop
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - '.github/workflows/go-web.yml'
+      - 'go/piscsi-web/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go/piscsi-web
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Build x86_64 binaries
+        run: nix-shell --run "make build mock"
+
+      - name: Build ARM64 binary (Raspberry Pi 4/5)
+        run: nix-shell --run "make build-linux-arm64"
+
+      - name: Build ARMv7 binary (Raspberry Pi 2/3)
+        run: nix-shell --run "make build-linux-armv7"
+
+      - name: Verify binaries
+        run: |
+          ls -lh piscsi-web* mock-piscsi
+          file piscsi-web
+          file piscsi-web-arm64
+          file piscsi-web-armv7
+          file mock-piscsi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: go-web-binaries
+          path: |
+            go/piscsi-web/piscsi-web
+            go/piscsi-web/piscsi-web-arm64
+            go/piscsi-web/piscsi-web-armv7
+            go/piscsi-web/mock-piscsi
