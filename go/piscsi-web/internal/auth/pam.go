@@ -1,3 +1,5 @@
+//go:build !nopam
+
 package auth
 
 import (

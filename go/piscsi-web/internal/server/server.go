@@ -13,6 +13,7 @@ import (
 	"github.com/piscsi/piscsi-web/internal/driveprops"
 	"github.com/piscsi/piscsi-web/internal/piscsi"
 	pb "github.com/piscsi/piscsi-web/proto"
+	"github.com/piscsi/piscsi-web/web"
 )
 
 // Server represents the HTTP server
@@ -37,8 +38,14 @@ func New(cfg *config.Config, logger *slog.Logger) *Server {
 
 	router := gin.New()
 
-	// Load HTML templates
-	router.LoadHTMLGlob(cfg.TemplatesDir + "/*.html")
+	// Load HTML templates (try embedded first, then filesystem)
+	tmpl, err := web.GetTemplates()
+	if err == nil && len(tmpl.Templates()) > 0 {
+		router.SetHTMLTemplate(tmpl)
+	} else {
+		// Fallback to filesystem for development
+		router.LoadHTMLGlob(cfg.TemplatesDir + "/*.html")
+	}
 
 	// Add middleware
 	router.Use(gin.Recovery())
@@ -97,8 +104,14 @@ func New(cfg *config.Config, logger *slog.Logger) *Server {
 
 // setupRoutes configures all HTTP routes
 func (s *Server) setupRoutes() {
-	// Serve static files
-	s.router.Static("/static", s.config.StaticDir)
+	// Serve static files (try embedded first, then filesystem)
+	staticFS, err := web.GetStaticFS()
+	if err == nil {
+		s.router.StaticFS("/static", staticFS)
+	} else {
+		// Fallback to filesystem for development
+		s.router.Static("/static", s.config.StaticDir)
+	}
 
 	// Public routes (no authentication required)
 	s.router.GET("/login", s.handleLoginPage)

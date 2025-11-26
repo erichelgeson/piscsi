@@ -44,6 +44,24 @@ build-linux-armv7:
 	@echo "✅ ARMv7 binary created: $(BINARY_NAME)-armv7"
 	@ls -lh $(BINARY_NAME)-armv7
 
+build-linux-arm64-static:
+	@echo "Building static ARM64 binary (Raspberry Pi 4/5)..."
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 \
+	  $(GOBUILD) -tags nopam -ldflags "-s -w -extldflags=-static" -o $(BINARY_NAME)-arm64-static ./cmd/piscsi-web
+	@echo "✅ Static ARM64 binary created: $(BINARY_NAME)-arm64-static"
+	@echo "⚠️  Note: PAM authentication disabled. Set DISABLE_AUTH=true to bypass auth (insecure)."
+	@file $(BINARY_NAME)-arm64-static
+	@ls -lh $(BINARY_NAME)-arm64-static
+
+build-linux-armv7-static:
+	@echo "Building static ARMv7 binary (Raspberry Pi 2/3)..."
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 \
+	  $(GOBUILD) -tags nopam -ldflags "-s -w -extldflags=-static" -o $(BINARY_NAME)-armv7-static ./cmd/piscsi-web
+	@echo "✅ Static ARMv7 binary created: $(BINARY_NAME)-armv7-static"
+	@echo "⚠️  Note: PAM authentication disabled. Set DISABLE_AUTH=true to bypass auth (insecure)."
+	@file $(BINARY_NAME)-armv7-static
+	@ls -lh $(BINARY_NAME)-armv7-static
+
 test:
 	$(GOTEST) -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
@@ -90,4 +108,4 @@ uninstall:
 	@echo "Uninstalling PiSCSI Web Interface..."
 	@./scripts/uninstall.sh
 
-.PHONY: all build mock build-linux-arm64 build-linux-armv7 test test-short test-server test-coverage test-verbose clean run deps tidy proto install uninstall
+.PHONY: all build mock build-linux-arm64 build-linux-armv7 build-linux-arm64-static build-linux-armv7-static test test-short test-server test-coverage test-verbose clean run deps tidy proto install uninstall

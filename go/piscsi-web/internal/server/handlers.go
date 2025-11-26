@@ -12,8 +12,9 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	pb "github.com/piscsi/piscsi-web/proto"
 	"github.com/piscsi/piscsi-web/internal/piscsi"
+	pb "github.com/piscsi/piscsi-web/proto"
+	"github.com/piscsi/piscsi-web/web"
 )
 
 // handleIndex serves the main control page
@@ -2643,7 +2644,25 @@ func (s *Server) handleTheme(c *gin.Context) {
 func (s *Server) handlePWA(c *gin.Context) {
 	pwaPath := c.Param("pwa_path")
 
-	// Serve from static/pwa directory
+	// Try embedded files first
+	data, err := web.GetPWAFile(pwaPath)
+	if err == nil {
+		// Determine content type based on file extension
+		contentType := "application/octet-stream"
+		if strings.HasSuffix(pwaPath, ".json") {
+			contentType = "application/json"
+		} else if strings.HasSuffix(pwaPath, ".xml") {
+			contentType = "application/xml"
+		} else if strings.HasSuffix(pwaPath, ".png") {
+			contentType = "image/png"
+		} else if strings.HasSuffix(pwaPath, ".ico") {
+			contentType = "image/x-icon"
+		}
+		c.Data(http.StatusOK, contentType, data)
+		return
+	}
+
+	// Fallback to filesystem for development
 	fullPath := filepath.Join(s.config.StaticDir, "pwa", pwaPath)
 
 	// Check if file exists
